@@ -79,7 +79,7 @@ How do you notify commenters when new comment is posted for an article?
 
 Add this line to your application's Gemfile:
 
-    gem 'horde'
+    gem 'horde-rails', :require => 'horde'
 
 And then execute:
 
