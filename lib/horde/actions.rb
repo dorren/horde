@@ -9,7 +9,6 @@ module Horde
         include ::Horde::Actions::Rate
       end
     end
-
   end
 end
 

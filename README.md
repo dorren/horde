@@ -9,10 +9,18 @@ Say your app has typical models like User, Article, Category, etc.
   # ----- setup models
   class User
     include Horde::Actor
+
+    include Horde::Actions::Follow   # allow one user follow another user
   end
 
   class Article
-    include Horde::Target
+    include Horde::Actions::All   # all actions that can be performed on this model.
+
+    # or selectively, a few of them
+    #   include Horde::Actions::Comment
+    #   include Horde::Actions::Favorite
+    #   include Horde::Actions::Follow
+    #   include Horde::Actions::Rate
   end
 
   # ----- case 1: favoriting
@@ -81,9 +89,10 @@ Or install it yourself as:
 
     $ gem install horde
 
-## Usage
 
-TODO: Write usage instructions here
+copy db/migrate/timestamp_horde_setup.rb to your app. I haven't figure
+out how to use generator.
+
 
 ## Contributing
 
