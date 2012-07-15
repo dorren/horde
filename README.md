@@ -1,20 +1,21 @@
 # Horde
 
-Horde is a gem to help you implement social networking features in your app.
+Horde is a gem to help you implement social networking features in your app, like follow a user, favorite a photo, and comment on an article, etc.
 
 ## Usage
 Say your app has typical models like User, Article, Category, etc.
 
 ```ruby
+  # ----- setup models
   class User
     include Horde::Actor
   end
 
-  # ----- case 1: favoriting
   class Article
     include Horde::Target
   end
 
+  # ----- case 1: favoriting
   favorite = user.favorite(article)      # saved in 'horde_favorites' table
   favorite.favoriter                     # --> user
   favorite.target                        # --> article
@@ -22,7 +23,7 @@ Say your app has typical models like User, Article, Category, etc.
 
   article.favorites                      # --> [favorite]
   article.favoriters                     # --> [user]
-  user.favorites                         # --> [favorite], could point to any target, article, photo.
+  user.created_favorites                 # --> [favorite], could point to any target, article, photo.
   user.favorited_articles                # --> [article], this user's favorited articles
 
 
@@ -32,9 +33,9 @@ Say your app has typical models like User, Article, Category, etc.
   comment.target                         # --> article
   comment.commented_article              # --> same article
 
-  article.comments                       # --> [commenta]
+  article.comments                       # --> [comment]
   article.commenters                     # --> [user]
-  user.comments                          # --> [comment] 
+  user.created_comments                  # --> [comment] 
   user.commented_articles                # --> [article]
 
 
@@ -46,16 +47,19 @@ Say your app has typical models like User, Article, Category, etc.
   
   article.rates                          # --> [rate]
   article.raters                         # --> [user]
-  user.rates                             # --> [rate]
+  user.created_rates                     # --> [rate]
   user.rated_articles                    # --> [article]
 ```
 
 How do you notify commenters when new comment is posted for an article?
 ```ruby
   class Article
-    after_comment :notify_commenters
+    after_comment  :notify_commenters
+    after_favorite :do_something
+    after_rate     :do_something_else
 
-    def notify_commenters
+    def notify_commenters(comment)
+      msg = "#{comment.commenter.login} just commented on article '#{self.title}'"
       emails = commenters.map &:email
       # email all users
     end

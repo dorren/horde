@@ -19,6 +19,7 @@ Gem::Specification.new do |gem|
   gem.add_dependency 'activerecord'
   gem.add_dependency 'activesupport'
   gem.add_dependency "sinatra-activerecord"
+  gem.add_dependency "hooks"
   gem.add_development_dependency 'debugger'
   gem.add_development_dependency 'rspec'
   gem.add_development_dependency "database_cleaner"
