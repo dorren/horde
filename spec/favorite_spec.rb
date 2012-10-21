@@ -3,6 +3,8 @@ require 'spec_helper'
 describe "favoriting" do
   before(:each) do
     @user  = User.create(:login => 'john', :first_name => 'John', :last_name => 'Doe')
+    profile = Profile.create(:user_id => @user.id, :avatar_url => 'http://here.com/pic.jpg', :age => 18)
+
     @user2 = User.create(:login => 'jane', :first_name => 'Jane', :last_name => 'Doe')
     @article = Article.create(:title => 'article 1', :author_id => @user2.id)
     @photo = Photo.create(:name => 'photo 1', :author_id => @user2.id)

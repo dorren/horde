@@ -51,6 +51,7 @@ class HordeSetup < ActiveRecord::Migration
   def down
     drop_table :horde_favorites
     drop_table :horde_comments
+    drop_table :horde_follows
     drop_table :horde_rates
   end
 end

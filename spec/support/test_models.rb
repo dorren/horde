@@ -1,6 +1,20 @@
+class Profile < ActiveRecord::Base
+
+end
+
 class User < ActiveRecord::Base
   include Horde::Actor
   include Horde::Actions::Follow
+
+  has_one :profile, :dependent => :destroy
+
+  def avatar_url
+    profile.avatar_url
+  end
+
+  def age
+    profile.age
+  end
 end
 
 class Article < ActiveRecord::Base
