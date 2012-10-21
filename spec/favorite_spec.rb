@@ -38,4 +38,11 @@ describe "favoriting" do
     article2.should_receive(:run_hook)
     @user.favorite(article2)
   end
+
+  it "should not favorite same thing twice" do
+    @article.favorites.size.should == 1
+
+    @user.favorite(@article)
+    @article.favorites.size.should == 1
+  end
 end

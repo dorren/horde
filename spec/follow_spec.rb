@@ -52,4 +52,11 @@ describe "following" do
     @user2.follows.should == [follow]
     @user2.followers.should == [@user]
   end
+
+  it "should not follow same thing twice" do
+    @article.follows.size.should == 1
+
+    @user.follow(@article)
+    @article.follows.size.should == 1
+  end
 end

@@ -23,11 +23,19 @@ module Horde
 
         # user follow something.
         def follow(target, options = {})
-          params = {:actor_id => self.id, 
-                    :target_id => target.id,
-                    :target_type => target.class.name
-                   }.merge(options)
-          follow = ::Horde::Follow.create(params)
+          pks  = {:actor_id => self.id, 
+                  :target_id => target.id,
+                  :target_type => target.class.name
+                 }.merge(options)
+          
+          follow = ::Horde::Follow.where(pks).first
+          if follow
+            # do nothing
+          else
+            params = pks.merge(options)
+            follow = ::Horde::Follow.create(params)
+          end
+
           target.run_hook(:after_follow, follow)
 
           follow

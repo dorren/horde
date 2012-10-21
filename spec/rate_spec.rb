@@ -38,4 +38,13 @@ describe "rating" do
     article2.should_receive(:run_hook)
     @user.rate(article2)
   end
+
+  it "should not rate same thing twice" do
+    @article.rates.size.should == 1
+    @article.rates.first.score.should == 5
+
+    @user.rate(@article, :score => 4)
+    @article.rates.size.should == 1
+    @article.rates.first.score.should == 4
+  end
 end

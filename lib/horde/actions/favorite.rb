@@ -23,11 +23,18 @@ module Horde
 
         # user favorite something.
         def favorite(target, options = {})
-          params = {:actor_id => self.id, 
-                    :target_id => target.id,
-                    :target_type => target.class.name
-                   }.merge(options)
-          fav = ::Horde::Favorite.create(params)
+          pks  = {:actor_id => self.id, 
+                  :target_id => target.id,
+                  :target_type => target.class.name
+                 }.merge(options)
+          fav = ::Horde::Favorite.where(pks).first
+          if fav
+            # do nothing
+          else
+            params = pks.merge(options)
+            fav = ::Horde::Favorite.create(params)
+          end
+
           target.run_hook(:after_favorite, fav)
 
           fav

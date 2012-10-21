@@ -25,11 +25,18 @@ module Horde
 
         # user rate something.
         def rate(target, options = {})
-          params = {:actor_id => self.id, 
-                    :target_id => target.id,
-                    :target_type => target.class.name
-                   }.merge(options)
-          rate = ::Horde::Rate.create(params)
+          pks  = {:actor_id => self.id, 
+                  :target_id => target.id,
+                  :target_type => target.class.name
+                 }
+          rate = ::Horde::Rate.where(pks).first
+          if rate
+            rate.update_attributes(options)
+          else
+            params = pks.merge(options)
+            rate = ::Horde::Rate.create(params)
+          end
+
           target.run_hook(:after_rate, rate)
 
           rate
